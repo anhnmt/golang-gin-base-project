@@ -1,4 +1,4 @@
-package auth
+package entities
 
 type Auth struct {
 }

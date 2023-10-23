@@ -1,14 +1,15 @@
-package database
+package db
 
 import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 
-	"github.com/anhnmt/golang-gin-base-project/api/auth"
-	"github.com/anhnmt/golang-gin-base-project/api/post"
+	"github.com/anhnmt/golang-gin-base-project/entities"
 )
 
-func New() *gorm.DB {
+var db *gorm.DB
+
+func New() {
 	dsn := "host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable"
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
@@ -17,9 +18,11 @@ func New() *gorm.DB {
 
 	// Migrate the schema
 	db.AutoMigrate(
-		&auth.Auth{},
-		&post.Post{},
+		&entities.Auth{},
+		&entities.Post{},
 	)
+}
 
-	return db
+func Repository(value interface{}) *gorm.DB {
+	return db.Model(value)
 }

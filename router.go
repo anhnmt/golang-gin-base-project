@@ -2,15 +2,14 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 
 	"github.com/anhnmt/golang-gin-base-project/api/auth"
 	"github.com/anhnmt/golang-gin-base-project/api/post"
 )
 
-type Controller func(api *gin.RouterGroup, db *gorm.DB)
+type Controller func(api *gin.RouterGroup)
 
-func Router(r *gin.Engine, db *gorm.DB) {
+func Router(r *gin.Engine) {
 	api := r.Group("/api")
 
 	ctrls := []Controller{
@@ -19,6 +18,6 @@ func Router(r *gin.Engine, db *gorm.DB) {
 	}
 
 	for _, ctrl := range ctrls {
-		ctrl(api, db)
+		ctrl(api)
 	}
 }
